@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worksheet Interaktif: Ayo Mewarnai Bentuk!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Nunito:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f4f1ea;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .worksheet-container {
+            background-color: white;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            box-sizing: border-box;
+            border: 2px solid #ddd;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .header input {
+            border: none;
+            border-bottom: 2px dashed #999;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            outline: none;
+            width: 200px;
+        }
+
+        .title-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-family: 'Comic Neue', cursive;
+            font-size: 36px;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .legend-container {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .legend-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            padding: 10px;
+            border-radius: 10px;
+            border: 3px solid transparent;
+        }
+
+        .legend-item:hover {
+            transform: scale(1.1);
+        }
+
+        .legend-item.active {
+            border-color: #333;
+            background-color: #f0f0f0;
+            transform: scale(1.1);
+        }
+
+        .legend-item svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
+
+        .legend-label {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .grid-item {
+            cursor: pointer;
+            width: 80px;
+            height: 80px;
+        }
+
+        .grid-item svg {
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Let the div handle clicks */
+        }
+
+        .grid-item path, .grid-item polygon, .grid-item rect, .grid-item circle {
+            fill: white;
+            stroke: black;
+            stroke-width: 4;
+            transition: fill 0.3s;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-family: 'Comic Neue', cursive;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result-message {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            font-family: 'Comic Neue', cursive;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="worksheet-container">
+    <div class="header">
+        <div>Nama: <input type="text"></div>
+        <div>Tanggal: <input type="text"></div>
+    </div>
+
+    <div class="title-section">
+        <h1>AYO MEWARNAI BENTUK!</h1>
+        <p>Pilih warna dari gambar di bawah ini, lalu klik bentuk kosong untuk mewarnainya!</p>
+    </div>
+
+    <!-- Panduan Warna -->
+    <div class="legend-container">
+        <div class="legend-item" data-color="#FF69B4">
+            <svg viewBox="0 0 100 100"><polygon points="50,15 90,85 10,85" fill="#FF69B4"/></svg>
+            <span class="legend-label">Merah Muda</span>
+        </div>
+        <div class="legend-item" data-color="#FF0000">
+            <svg viewBox="0 0 100 100"><path d="M50,30 C30,0 0,30 20,55 L50,90 L80,55 C100,30 70,0 50,30 Z" fill="#FF0000"/></svg>
+            <span class="legend-label">Merah</span>
+        </div>
+        <div class="legend-item" data-color="#32CD32">
+            <svg viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="#32CD32"/></svg>
+            <span class="legend-label">Hijau</span>
+        </div>
+        <div class="legend-item" data-color="#00BFFF">
+            <svg viewBox="0 0 100 100"><polygon points="50,10 61,35 88,35 66,51 74,77 50,60 26,77 34,51 12,35 39,35" fill="#00BFFF"/></svg>
+            <span class="legend-label">Biru</span>
+        </div>
+        <div class="legend-item" data-color="#FFD700">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="#FFD700"/></svg>
+            <span class="legend-label">Kuning</span>
+        </div>
+    </div>
+
+    <!-- Lembar Kerja (Grid 5x5) -->
+    <div class="grid-container" id="worksheet-grid">
+        <!-- SVG templates (Hidden) -->
+        <template id="shape-square">
+            <svg viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" /></svg>
+        </template>
+        <template id="shape-triangle">
+            <svg viewBox="0 0 100 100"><polygon points="50,15 90,85 10,85" /></svg>
+        </template>
+        <template id="shape-circle">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" /></svg>
+        </template>
+        <template id="shape-heart">
+            <svg viewBox="0 0 100 100"><path d="M50,30 C30,0 0,30 20,55 L50,90 L80,55 C100,30 70,0 50,30 Z" /></svg>
+        </template>
+        <template id="shape-star">
+            <svg viewBox="0 0 100 100"><polygon points="50,10 61,35 88,35 66,51 74,77 50,60 26,77 34,51 12,35 39,35" /></svg>
+        </template>
+    </div>
+
+    <div class="controls">
+        <button onclick="checkAnswers()">Cek Hasil Mewarnai!</button>
+        <div id="result-message"></div>
+    </div>
+</div>
+
+<script>
+    // Peta bentuk yang sesuai dengan gambar referensi dari baris ke baris
+    const shapeMap = [
+        ['square', 'triangle', 'circle', 'heart', 'star'],
+        ['heart', 'circle', 'star', 'triangle', 'square'],
+        ['circle', 'square', 'heart', 'star', 'triangle'],
+        ['triangle', 'star', 'square', 'circle', 'heart'],
+        ['star', 'heart', 'triangle', 'square', 'circle']
+    ];
+
+    // Peta warna yang benar berdasarkan panduan
+    const correctColors = {
+        'triangle': '#FF69B4',
+        'heart': '#FF0000',
+        'square': '#32CD32',
+        'star': '#00BFFF',
+        'circle': '#FFD700'
+    };
+
+    let selectedColor = null;
+
+    // Inisialisasi Grid
+    const gridContainer = document.getElementById('worksheet-grid');
+    
+    shapeMap.forEach(row => {
+        row.forEach(shapeType => {
+            const gridItem = document.createElement('div');
+            gridItem.className = 'grid-item';
+            gridItem.dataset.shape = shapeType;
+            gridItem.dataset.currentColor = 'none';
+
+            // Ambil template SVG
+            const template = document.getElementById(`shape-${shapeType}`);
+            gridItem.appendChild(template.content.cloneNode(true));
+
+            // Tambahkan event click untuk mewarnai
+            gridItem.addEventListener('click', function() {
+                if (selectedColor) {
+                    const svgShape = this.querySelector('rect, polygon, circle, path');
+                    svgShape.style.fill = selectedColor;
+                    this.dataset.currentColor = selectedColor;
+                } else {
+                    alert('Pilih warna dulu di bagian atas, ya!');
+                }
+            });
+
+            gridContainer.appendChild(gridItem);
+        });
+    });
+
+    // Logika pemilihan warna dari panduan
+    const legendItems = document.querySelectorAll('.legend-item');
+    legendItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Hapus status aktif dari semua legend
+            legendItems.forEach(el => el.classList.remove('active'));
+            
+            // Tambahkan status aktif ke item yang diklik
+            this.classList.add('active');
+            
+            // Set warna yang dipilih (hex color)
+            // Warna dikonversi ke uppercase agar konsisten saat diuji (Cek Hasil)
+            selectedColor = this.dataset.color.toUpperCase(); 
+        });
+    });
+
+    // Logika pengecekan jawaban
+    function checkAnswers() {
+        const items = document.querySelectorAll('.grid-item');
+        let correctCount = 0;
+        let totalItems = 25;
+
+        items.forEach(item => {
+            const shape = item.dataset.shape;
+            const appliedColor = item.dataset.currentColor.toUpperCase();
+            const correctColor = correctColors[shape].toUpperCase();
+
+            if (appliedColor === correctColor) {
+                correctCount++;
+            }
+        });
+
+        const resultDiv = document.getElementById('result-message');
+        if (correctCount === totalItems) {
+            resultDiv.innerHTML = '🌟 Wah, hebat sekali! Semuanya benar! 🌟';
+            resultDiv.style.color = '#4CAF50';
+        } else {
+            resultDiv.innerHTML = `Kamu mewarnai ${correctCount} bentuk dengan benar dari total 25 bentuk. Ayo coba perbaiki yang masih salah! Semangat! 💪`;
+            resultDiv.style.color = '#FF8C00';
+        }
+    }
+</script>
+
+</body>
+</html>
